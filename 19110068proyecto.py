@@ -5,11 +5,16 @@ Jair Shiblón Anaya Rodríguez
 Sistemas Expertos
 Proyecto
 """
+from docx import Document
+from docxtpl import DocxTemplate
+from docx.shared import Inches
 import cv2
 import os
 
 cont = 0 #Contador para puntaje de sección de morfología
 cont2 = 0 #Contador para puntaje de sección de repetición de palabras
+
+os.system('color 30')
 
 print("Tamiz de problemas del lenguaje - TPL") 
 print("Se utiliza para identificar trastornos o retrasos expresivos o bien, receptivo-expresivos del lenguaje")
@@ -954,3 +959,85 @@ print(oracion10)
 print(oracion11)
 print(oracion12)
 os.system('pause')
+
+document = Document()
+
+document.add_heading('Tamiz de problemas del lenguaje', 0)
+
+p = document.add_paragraph('Resultados obtenidos')
+
+document.add_heading('Información:', level=1)
+
+records = (
+    ('Nombre: ', nombre, ' '),
+    ('Edad: ', edad, ' '),
+    (dia, mes, anho),
+    ('Lugar:', lugar, ' ')
+)
+
+table = document.add_table(rows=1, cols=3)
+hdr_cells = table.rows[0].cells
+hdr_cells[0].text = ' '
+hdr_cells[1].text = ' '
+hdr_cells[2].text = ' '
+
+for qty, id, desc in records:
+    row_cells = table.add_row().cells
+    row_cells[0].text = str(qty)
+    row_cells[1].text = id
+    row_cells[2].text = desc
+
+contDoc = str(cont)
+cont2Doc = str(cont2)
+contTDoc = str(cont)
+porcMDoc = str(porcM)
+porcRDoc = str(porcR)
+porcTDoc = str(porcT)
+
+document.add_paragraph('Puntaje crudo')
+document.add_paragraph('TPL Morfología: /13', style='List Number')
+document.add_paragraph(contDoc)
+document.add_paragraph('Repetición de oraciones: /43', style='List Number')
+document.add_paragraph(cont2Doc)
+document.add_paragraph('TPL Global: ', style='List Number')
+document.add_paragraph(contTDoc)
+document.add_paragraph('Resultado en porcentaje: ')
+document.add_paragraph('TPL Morfología:')
+document.add_paragraph(porcMDoc)
+document.add_paragraph('Repetición de oraciones:')
+document.add_paragraph(porcRDoc)
+document.add_paragraph('TPL Global:')
+document.add_paragraph(porcTDoc)
+
+document.add_page_break()
+
+document.add_heading('Respuestas de morfología y repetición de oraciones:', level=1)
+document.add_paragraph(resp1)
+document.add_paragraph(resp2)
+document.add_paragraph(resp3)
+document.add_paragraph(resp4)
+document.add_paragraph(resp5)
+document.add_paragraph(resp6)
+document.add_paragraph(resp7)
+document.add_paragraph(resp8)
+document.add_paragraph(resp9)
+document.add_paragraph(resp10)
+document.add_paragraph(resp11)
+document.add_paragraph(resp12)
+document.add_paragraph(resp13)
+document.add_paragraph(oracion1)
+document.add_paragraph(oracion2)
+document.add_paragraph(oracion3)
+document.add_paragraph(oracion4)
+document.add_paragraph(oracion5)
+document.add_paragraph(oracion6)
+document.add_paragraph(oracion7)
+document.add_paragraph(oracion8)
+document.add_paragraph(oracion9)
+document.add_paragraph(oracion10)
+document.add_paragraph(oracion11)
+document.add_paragraph(oracion12)
+
+
+
+document.save('%s.docx' %str(nombre))
